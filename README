@@ -1,3 +1,18 @@
-ReservoirSampling
+ReservoirSampling is a C++ class designed to perform reservoir sampling on an input stream (i.e., from a generator).  This code is not standalone/compilable, but rather is intended to be implemented in a larger generator program.
 
+For now, ReservoirSampling also handles the ROOT output.  This is not critical to the sampling (output is not performed until sampling is done) and could be modified.
 
+1. To initialize ReservoirSampling, you need to provide the size of the reservoir K and the output ROOT filename:
+
+	ReservoirSampling* fReservoir = new ReservoirSampling(int K, TString filename);
+
+2. To sample an event, pass the event weight and corresponding physics quantities (e.g., particle vectors) to the reservoir:
+
+	fReservoir->SampleEvent(double weight, TVector3 electron, TVector3 neutron);
+
+3. For a reservoir of size K, it is recommended to sample at least 10000*K generated events. 
+
+4. Fill tree with events in reservoir and output to ROOT file:
+
+	fReservoir->FillTree();
+	fReservoir->WriteTree();
